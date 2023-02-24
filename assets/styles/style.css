@@ -1,0 +1,39 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: black;
+    color: white;
+}
+
+.row {
+    border: 1px solid white;
+}
+
+.column {
+    border: 1px solid red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    width: 200px;
+}
+
+.container {
+    width: 100%;
+    border: 1px solid green;
+}
+
+.arrow {
+    border: 1px solid yellow;
+}
+
+.card {
+    color: black;
+}
+
