@@ -9,6 +9,7 @@ for (let event of events) {
     <div class="card-body">
         <h5 class="card-title"> ${event.name} </h5>
         <p class="card-text"> ${event.description} </p>
+        <p class="card-text">Date: ${event.date} </p>
     </div>
 
     <div class="container">
