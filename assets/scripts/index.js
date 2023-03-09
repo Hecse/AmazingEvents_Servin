@@ -8,15 +8,16 @@ for (let event of events) {
     <div class="card-body">
         <h5 class="card-title"> ${event.name} </h5>
         <p class="card-text"> ${event.description} </p>
+        <p class="card-text">Date: ${event.date} </p>
     </div>
 
     <div class="container">
         <div class="row">
-            <div class="column col-6">
-                <div class="card-footer bg-transparent border-success">Price $ ${event.price} </div>
+            <div class="column col-8">
+                <div class="card-footer bg-transparent border-success">Price: $ ${event.price} </div>
             </div>
 
-            <div class="column col-6"><a href="./details.html" class="btn btn-primary">Details</a>
+            <div class="column col-4"><a href="./details.html" class="btn btn-primary">Details</a>
             </div>
         </div>
     </div>
@@ -25,6 +26,3 @@ for (let event of events) {
 
 contenidoCard.innerHTML = tarjeta
 /* console.log(tarjeta.name) */
-
-
-
