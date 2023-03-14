@@ -1,9 +1,42 @@
+const contenidoCheck = document.getElementById(`check`)
+
+//filtrarCategorias(events)
+
+
+
+//filtrar categorias para los checks
+/* function filtrarCategorias(array) {
+    let categorias = array.map(evento => evento.category)
+    let setDeCategorias = new Set(categorias)
+    let categoriasFiltradas = Array.from(setDeCategorias)
+} */
+
+pintarChecksFiltrados(events)
+
+
+
+//pintar los checks
+function pintarChecksFiltrados(unArray) {
+    let categorias = unArray.map(evento => evento.category)
+    let setDeCategorias = new Set(categorias)
+    let categoriasFiltradas = Array.from(setDeCategorias)
+    let chequeado = ``
+    categoriasFiltradas.forEach(element => {
+        chequeado += `<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+    <label class="form-check-label" for="inlineRadio1"> ${element}</label>
+    </div>`
+    });
+    contenidoCheck.innerHTML = chequeado
+}
+
+
 const contenidoCard = document.getElementById(`tarjetas`)
 let tarjeta = ``
 
-
-for (let event of events) {
-    tarjeta += `<div class="card text m-2 p-0" style="width: 18rem;"> 
+let pintarTarjetas = (unArray) => {
+    unArray.forEach((event) => {
+        tarjeta += `<div class="card text m-2 p-0" style="width: 18rem;"> 
     <img src= ${event.image} class="card-img-top" alt="Costume Party">
     <div class="card-body">
         <h5 class="card-title"> ${event.name} </h5>
@@ -31,9 +64,10 @@ for (let event of events) {
             <a href="./details.html" class="btn btn-primary mb-1">Details</a>
         </div>
     </div>
-    
     </div>`
+    });
+    contenidoCard.innerHTML = tarjeta
 }
 
-contenidoCard.innerHTML = tarjeta
-/* console.log(tarjeta.name) */
+pintarTarjetas(events)
+

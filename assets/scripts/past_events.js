@@ -23,12 +23,8 @@ for (let event of events) {
                 <div class="column col-12">
                 <div class="card-footer bg-transparent border-success"> Price: $ ${event.price} </div>
             </div>            
-        </div>
-        
-        </div>
-
-        
-            
+        </div>        
+        </div>            
         </div>
 
         <div class="column col-4"><a href="./details.html" class="btn btn-primary">Details</a>

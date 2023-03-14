@@ -172,4 +172,4 @@ const events = [
   }
 ]
 
-console.log(events,name)
+//const categoriasFiltradas = ["Food Fair", "Museum", "Costume Party", "Music Concert", "Race", "Book Exchange", "Cinema"]
