@@ -1,19 +1,6 @@
 const contenidoCheck = document.getElementById(`check`)
 
-//filtrarCategorias(events)
-
-
-
-//filtrar categorias para los checks
-/* function filtrarCategorias(array) {
-    let categorias = array.map(evento => evento.category)
-    let setDeCategorias = new Set(categorias)
-    let categoriasFiltradas = Array.from(setDeCategorias)
-} */
-
 pintarChecksFiltrados(events)
-
-
 
 //pintar los checks
 function pintarChecksFiltrados(unArray) {
@@ -34,6 +21,8 @@ function pintarChecksFiltrados(unArray) {
 const contenidoCard = document.getElementById(`tarjetas`)
 let tarjeta = ``
 
+
+//pintar las cards
 let pintarTarjetas = (unArray) => {
     unArray.forEach((event) => {
         tarjeta += `<div class="card text m-2 p-0" style="width: 18rem;"> 

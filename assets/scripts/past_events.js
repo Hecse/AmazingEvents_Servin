@@ -1,3 +1,31 @@
+//filtrar categorias para los checks
+/* function filtrarCategorias(array) {
+    let categorias = array.map(evento => evento.category)
+    let setDeCategorias = new Set(categorias)
+    let categoriasFiltradas = Array.from(setDeCategorias)
+} */
+
+const contenidoCheck = document.getElementById(`check`)
+
+pintarChecksFiltrados(events)
+
+
+//pintar los checks
+function pintarChecksFiltrados(unArray) {
+    let categorias = unArray.map(evento => evento.category)
+    let setDeCategorias = new Set(categorias)
+    let categoriasFiltradas = Array.from(setDeCategorias)
+    let chequeado = ``
+    categoriasFiltradas.forEach(element => {
+        chequeado += `<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+    <label class="form-check-label" for="inlineRadio1"> ${element}</label>
+    </div>`
+    });
+    contenidoCheck.innerHTML = chequeado
+}
+
+
 const contenidoCard = document.getElementById(`tarjetas`)
 let tarjeta = ``
 
