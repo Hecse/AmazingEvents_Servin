@@ -1,8 +1,28 @@
 const contenidoCheck = document.getElementById(`check`)
+const contenidoCard = document.getElementById(`tarjetas`)
+const input = document.querySelector(`input`)
+
+input.addEventListener(`input`, () => {
+    let arrayFiltrado = filtrarPorTitulos(events, input.value)
+    pintarTarjetas(arrayFiltrado)
+})
+
+contenidoCheck.addEventListener(`change`, () => {
+    let eventsFiltrados = filtrarPorCategorias(events);
+    pintarTarjetas(eventsFiltrados)
+})
+
 
 pintarChecksFiltrados(events)
 
-//pintar los checks
+pintarTarjetas(events)
+
+
+
+
+
+
+
 function pintarChecksFiltrados(unArray) {
     let categorias = unArray.map(evento => evento.category)
     let setDeCategorias = new Set(categorias)
@@ -10,21 +30,20 @@ function pintarChecksFiltrados(unArray) {
     let chequeado = ``
     categoriasFiltradas.forEach(element => {
         chequeado += `<div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-    <label class="form-check-label" for="inlineRadio1"> ${element}</label>
+    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="${element}" value="${element}">
+    <label class="form-check-label" for="${element}"> ${element}</label>
     </div>`
     });
     contenidoCheck.innerHTML = chequeado
 }
 
-
-const contenidoCard = document.getElementById(`tarjetas`)
-let tarjeta = ``
-
-
-//pintar las cards
-let pintarTarjetas = (unArray) => {
-    unArray.forEach((event) => {
+function pintarTarjetas(unArray) {
+    if (unArray.length == 0) {
+        contenidoCard.innerHTML = `<h3>No match found</h3>`
+        return
+    }
+    let tarjeta = ``
+    unArray.forEach(event => {
         tarjeta += `<div class="card text m-2 p-0" style="width: 18rem;"> 
     <img src= ${event.image} class="card-img-top" alt="Costume Party">
     <div class="card-body">
@@ -58,5 +77,17 @@ let pintarTarjetas = (unArray) => {
     contenidoCard.innerHTML = tarjeta
 }
 
-pintarTarjetas(events)
+function filtrarPorTitulos(array, texto) {
+    let tarjetasFiltradas = array.filter(event => event.name.toLowerCase().includes(texto.toLowerCase()))
+    return tarjetasFiltradas
+}
 
+function filtrarPorCategorias(array) {
+    let categorias = document.querySelectorAll("input[type='radio']")
+    let arrayDeCategorias = Array.from(categorias)
+    let categoriasFiltradas = arrayDeCategorias.filter(check => check.checked)
+    let categoriaCheck = categoriasFiltradas.map(categoriascheck => categoriascheck.value)
+    let arrayComparado = array.filter(element => categoriaCheck.includes(element.category))
+    console.log(arrayComparado)
+    return arrayComparado
+}
