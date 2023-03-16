@@ -2,15 +2,12 @@ const contenidoCheck = document.getElementById(`check`)
 const contenidoCard = document.getElementById(`tarjetas`)
 const input = document.querySelector(`input`)
 
-input.addEventListener(`input`, () => {
-    let arrayFiltrado = filtrarPorTitulos(events, input.value)
-    pintarTarjetas(arrayFiltrado)
-})
 
-contenidoCheck.addEventListener(`change`, () => {
-    let eventsFiltrados = filtrarPorCategorias(events);
-    pintarTarjetas(eventsFiltrados)
-})
+
+input.addEventListener(`input`, filtroDoble)
+
+contenidoCheck.addEventListener(`change`, filtroDoble)
+
 
 
 pintarChecksFiltrados(events)
@@ -19,9 +16,11 @@ pintarTarjetas(events)
 
 
 
-
-
-
+function filtroDoble(){
+    let filtroUno = filtrarPorTitulos(events, input.value)
+    let filtroDos = filtrarPorCategorias(filtroUno)
+    pintarTarjetas(filtroDos)
+}
 
 function pintarChecksFiltrados(unArray) {
     let categorias = unArray.map(evento => evento.category)
@@ -30,7 +29,7 @@ function pintarChecksFiltrados(unArray) {
     let chequeado = ``
     categoriasFiltradas.forEach(element => {
         chequeado += `<div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="${element}" value="${element}">
+    <input class="form-check-input" type="checkbox" id="${element}" value="${element}">
     <label class="form-check-label" for="${element}"> ${element}</label>
     </div>`
     });
@@ -54,7 +53,7 @@ function pintarTarjetas(unArray) {
     <div class="row">
         <div class="column col-12">        
             <div class="card-footer bg-transparent">
-            Date:  ${event.date} 
+            Date: ${event.date} 
             </div>
         </div>        
     </div>
@@ -69,7 +68,7 @@ function pintarTarjetas(unArray) {
         </div>
 
         <div class="column col-4">
-            <a href="./details.html" class="btn btn-primary mb-1">Details</a>
+            <a href="./details.html?${event.id}" class="btn btn-primary mb-1">Details</a>
         </div>
     </div>
     </div>`
@@ -83,11 +82,14 @@ function filtrarPorTitulos(array, texto) {
 }
 
 function filtrarPorCategorias(array) {
-    let categorias = document.querySelectorAll("input[type='radio']")
+    let categorias = document.querySelectorAll("input[type='checkbox']")
     let arrayDeCategorias = Array.from(categorias)
     let categoriasFiltradas = arrayDeCategorias.filter(check => check.checked)
     let categoriaCheck = categoriasFiltradas.map(categoriascheck => categoriascheck.value)
     let arrayComparado = array.filter(element => categoriaCheck.includes(element.category))
-    console.log(arrayComparado)
-    return arrayComparado
+    if (categoriasFiltradas.length > 0){
+       return arrayComparado 
+    }
+    return array
 }
+
