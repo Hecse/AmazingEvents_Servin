@@ -68,7 +68,7 @@ function pintarTarjetas(unArray) {
         </div>
 
         <div class="column col-4">
-            <a href="./details.html?${event.id}" class="btn btn-primary mb-1">Details</a>
+            <a href="./details.html?id=${event.id}" class="btn btn-primary mb-1">Details</a>
         </div>
     </div>
     </div>`
