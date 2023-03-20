@@ -1,29 +1,48 @@
+let urlApi = "https://mindhub-xj03.onrender.com/api/amazing"
 const contenidoCheck = document.getElementById(`check`)
 const contenidoCard = document.getElementById(`tarjetas`)
 const input = document.querySelector(`input`)
 
 
-
 input.addEventListener(`input`, filtroDoble)
-
 contenidoCheck.addEventListener(`change`, filtroDoble)
 
+buscarDatos()
 
+async function buscarDatos() {
+    try {
+        //throw new Error ("se rompio todo")
+        const response = await fetch(urlApi)
+        console.log(response)
+        const datos = await response.json()
+        //console.log(datos.events);
+        return datos
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
 
-pintarChecksFiltrados(events)
+let eventos = ""
 
-pintarTarjetas(events)
+async function iniciar(){
+    eventos = await buscarDatos();
+    pintarTarjetas(eventos);
+    pintarChecksFiltrados(eventos)
+    return eventos
+}
 
+iniciar()
 
 
 function filtroDoble(){
-    let filtroUno = filtrarPorTitulos(events, input.value)
+    let filtroUno = filtrarPorTitulos(eventos.events, input.value)
     let filtroDos = filtrarPorCategorias(filtroUno)
     pintarTarjetas(filtroDos)
 }
 
 function pintarChecksFiltrados(unArray) {
-    let categorias = unArray.map(evento => evento.category)
+    let categorias = unArray.events.map(evento => evento.category)
     let setDeCategorias = new Set(categorias)
     let categoriasFiltradas = Array.from(setDeCategorias)
     let chequeado = ``
@@ -37,12 +56,12 @@ function pintarChecksFiltrados(unArray) {
 }
 
 function pintarTarjetas(unArray) {
-    if (unArray.length == 0) {
+    if (unArray.events.length == 0) {
         contenidoCard.innerHTML = `<h3>No match found</h3>`
         return
     }
     let tarjeta = ``
-    unArray.forEach(event => {
+    unArray.events.forEach(event => {
         tarjeta += `<div class="card text m-2 p-0" style="width: 18rem;"> 
     <img src= ${event.image} class="card-img-top" alt="Costume Party">
     <div class="card-body">
@@ -77,7 +96,7 @@ function pintarTarjetas(unArray) {
 }
 
 function filtrarPorTitulos(array, texto) {
-    let tarjetasFiltradas = array.filter(event => event.name.toLowerCase().includes(texto.toLowerCase()))
+    let tarjetasFiltradas = array.events.filter(event => event.name.toLowerCase().includes(texto.toLowerCase()))
     return tarjetasFiltradas
 }
 
@@ -86,7 +105,7 @@ function filtrarPorCategorias(array) {
     let arrayDeCategorias = Array.from(categorias)
     let categoriasFiltradas = arrayDeCategorias.filter(check => check.checked)
     let categoriaCheck = categoriasFiltradas.map(categoriascheck => categoriascheck.value)
-    let arrayComparado = array.filter(element => categoriaCheck.includes(element.category))
+    let arrayComparado = array.events.filter(element => categoriaCheck.includes(element.category))
     if (categoriasFiltradas.length > 0){
        return arrayComparado 
     }
