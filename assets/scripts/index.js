@@ -4,8 +4,8 @@ const contenidoCard = document.getElementById(`tarjetas`)
 const input = document.querySelector(`input`)
 
 
-input.addEventListener(`input`, filtroDoble)
-contenidoCheck.addEventListener(`change`, filtroDoble)
+//input.addEventListener(`input`, filtroDoble)
+//contenidoCheck.addEventListener(`change`, filtroDoble)
 
 buscarDatos()
 
@@ -15,34 +15,35 @@ async function buscarDatos() {
         const response = await fetch(urlApi)
         console.log(response)
         const datos = await response.json()
-        //console.log(datos.events);
-        return datos
+        console.log(datos);
+        console.log(datos.events);
+        //return datos
+
+        pintarTarjetas(datos.events);
+        pintarChecksFiltrados(datos.events);
+
+        input.addEventListener('input', () => {
+            filtroDoble(datos);
+        });
+
+        contenidoCheck.addEventListener('change', () => {
+            filtroDoble(datos);
+        });
+
     }
     catch (error) {
         console.log(error);
     }
 }
 
-let eventos = ""
-
-async function iniciar(){
-    eventos = await buscarDatos();
-    pintarTarjetas(eventos);
-    pintarChecksFiltrados(eventos)
-    return eventos
-}
-
-iniciar()
-
-
-function filtroDoble(){
-    let filtroUno = filtrarPorTitulos(eventos.events, input.value)
-    let filtroDos = filtrarPorCategorias(filtroUno)
+function filtroDoble(datos) {
+    let filtroUno = filtrarPorTitulos(datos.events, input.value)
+    let filtroDos = filtrarPorCategorias(filtroUno.events)
     pintarTarjetas(filtroDos)
 }
 
 function pintarChecksFiltrados(unArray) {
-    let categorias = unArray.events.map(evento => evento.category)
+    let categorias = unArray.map(evento => evento.category)
     let setDeCategorias = new Set(categorias)
     let categoriasFiltradas = Array.from(setDeCategorias)
     let chequeado = ``
@@ -56,12 +57,14 @@ function pintarChecksFiltrados(unArray) {
 }
 
 function pintarTarjetas(unArray) {
-    if (unArray.events.length == 0) {
-        contenidoCard.innerHTML = `<h3>No match found</h3>`
-        return
+    const arrayDeEventos = Array.from(unArray);
+    console.log(arrayDeEventos);
+    if (arrayDeEventos.length == 0) {
+        contenidoCard.innerHTML = `<h3>No match found</h3>`;
+        return;
     }
     let tarjeta = ``
-    unArray.events.forEach(event => {
+    arrayDeEventos.forEach(event => {
         tarjeta += `<div class="card text m-2 p-0" style="width: 18rem;"> 
     <img src= ${event.image} class="card-img-top" alt="Costume Party">
     <div class="card-body">
@@ -95,20 +98,35 @@ function pintarTarjetas(unArray) {
     contenidoCard.innerHTML = tarjeta
 }
 
-function filtrarPorTitulos(array, texto) {
-    let tarjetasFiltradas = array.events.filter(event => event.name.toLowerCase().includes(texto.toLowerCase()))
-    return tarjetasFiltradas
+async function filtrarPorTitulos(array, texto) {
+    try {
+        let tarjetasFiltradas = array.filter(event => event.name.toLowerCase().includes(texto.toLowerCase()))
+        console.log(tarjetasFiltradas);
+
+        return tarjetasFiltradas
+    } catch (error) {
+        console.error(error)
+    }
 }
 
-function filtrarPorCategorias(array) {
-    let categorias = document.querySelectorAll("input[type='checkbox']")
-    let arrayDeCategorias = Array.from(categorias)
-    let categoriasFiltradas = arrayDeCategorias.filter(check => check.checked)
-    let categoriaCheck = categoriasFiltradas.map(categoriascheck => categoriascheck.value)
-    let arrayComparado = array.events.filter(element => categoriaCheck.includes(element.category))
-    if (categoriasFiltradas.length > 0){
-       return arrayComparado 
+async function filtrarPorCategorias(array) {
+    const categorias = document.querySelectorAll("input[type='checkbox']");
+    const arrayDeCategorias = Array.from(categorias);
+    const categoriasFiltradas = arrayDeCategorias.filter((check) => check.checked);
+    const categoriaCheck = categoriasFiltradas.map((categoriascheck) => categoriascheck.value);
+
+    if (categoriasFiltradas.length > 0) {
+        try {
+            const response = await fetch(urlApi);
+            const eventos = await response.json();
+            const eventosFiltrados = eventos.events.filter((evento) => categoriaCheck.includes(evento.category));
+            
+            return eventosFiltrados;
+        } catch (error) {
+            console.error("Error al obtener los eventos de la API", error);
+        }
     }
-    return array
+    return { events: array };
 }
+
 
