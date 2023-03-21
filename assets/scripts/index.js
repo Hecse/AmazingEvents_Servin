@@ -24,12 +24,11 @@ async function iniciar() {
     console.log(datos);
     console.log(datos.events);
 
-    input.addEventListener('input', filtroDoble);
-    contenidoCheck.addEventListener('change', filtroDoble);
-    
     pintarChecksFiltrados(datos);
     pintarTarjetas(datos);
-   
+
+    input.addEventListener('input', filtroDoble);
+    contenidoCheck.addEventListener('change', filtroDoble);
 
     async function filtroDoble() {
         let datosApi = await buscarDatos()
