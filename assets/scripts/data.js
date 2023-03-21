@@ -171,5 +171,3 @@ const events = [
     "price": 250
   }
 ]
-
-//const categoriasFiltradas = ["Food Fair", "Museum", "Costume Party", "Music Concert", "Race", "Book Exchange", "Cinema"]

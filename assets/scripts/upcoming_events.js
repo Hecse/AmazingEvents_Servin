@@ -4,9 +4,9 @@ const input = document.querySelector(`input`)
 
 
 
-input.addEventListener(`input`, filtroDoble)
+input.addEventListener('input', filtroDoble)
 
-contenidoCheck.addEventListener(`change`, filtroDoble)
+contenidoCheck.addEventListener('change', filtroDoble)
 
 
 
@@ -37,7 +37,7 @@ function pintarChecksFiltrados(unArray) {
 
 function pintarTarjetas(unArray) {
     if (unArray.length == 0) {
-        contenidoCard.innerHTML = `<h3>No match found</h3>`
+        contenidoCard.innerHTML = '<h3>No match found</h3>'
         return
     }
     let tarjeta = ``
