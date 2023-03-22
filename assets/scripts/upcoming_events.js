@@ -9,8 +9,9 @@ async function buscarDatos() {
         .then(response => response.json())
         .then(data => {
 
-            //console.log(data);
-            //console.log(data.events);
+            console.log(data);
+            console.log(data.events);
+            console.log(data.currentDate);
             return data;
         })
         .catch((error) => console.error(error));
@@ -80,11 +81,12 @@ function pintarChecksFiltrados(unArray) {
 function pintarTarjetas(unArray) {
     if (unArray.length == 0) {
         contenidoCard.innerHTML = `<h3>No match found</h3>`
+        console.log(unArray.events);
         return
     }
     let tarjeta = ``
     for (let event of unArray) {
-        if (event.date >= "2023-03-10") {
+        if (event.date > "2023-03-10") {
             tarjeta += `<div class="card text m-2 p-0" style="width: 18rem;"> 
             <img src= ${event.image} class="card-img-top" alt="Costume Party">
             <div class="card-body">

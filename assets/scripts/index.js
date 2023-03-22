@@ -10,6 +10,7 @@ async function buscarDatos() {
 
             //console.log(data);
             //console.log(data.events);
+            //console.log(data.currentDate);
             return data;
         })
         .catch((error) => console.error(error));
