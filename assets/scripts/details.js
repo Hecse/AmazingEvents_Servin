@@ -13,14 +13,6 @@ async function buscarDatos() {
   return data;
 }
 
-async function iniciar() {
-  let datos = await buscarDatos();
-  //console.log(datos);
-  //console.log(datos.events);
-}
-
-iniciar()
-
 
 async function iniciar() {
   let datos = await buscarDatos();
@@ -37,18 +29,20 @@ async function iniciar() {
 
     <div class="col-md-8">
         <div class="card-body">
-            <p class="card-text"><small>NAME: ${masDetalle.name}</small></p>
-            <p class="card-text"><small>DATE: ${masDetalle.date}</small></p>
-            <p class="card-text"><small>DESCRIPTION: ${masDetalle.description}</small></p>
-            <p class="card-text"><small>CATEGORY: ${masDetalle.category}</small></p>
-            <p class="card-text"><small>PLACE: ${masDetalle.place}</small></p>
-            <p class="card-text"><small>CAPACITY: ${masDetalle.capacity}</small></p>
-            <p class="card-text"><small>ASSISTANCE: ${masDetalle.assistance}</small></p>
-            <p class="card-text"><small>PRICE: $ ${masDetalle.price}</small></p>
+        <p class="card-text"><small>NAME: <br> ${masDetalle.name}</small></p>
+        <p class="card-text"><small>DATE: <br> ${masDetalle.date}</small></p>
+            <p class="card-text"><small>DESCRIPTION: <br> ${masDetalle.description}</small></p>
+            <p class="card-text"><small>CATEGORY: <br> ${masDetalle.category}</small></p>
+            <p class="card-text"><small>PLACE: <br> ${masDetalle.place}</small></p>
+            <p class="card-text"><small>CAPACITY: <br> ${masDetalle.capacity}</small></p>
+            <p class="card-text"><small>ASSISTANCE: <br> ${masDetalle.assistance}</small></p>
+            <p class="card-text"><small>PRICE: <br> $ ${masDetalle.price}</small></p>
             </div>
         </div>
     </div>
   </div>
 `
 }
+
+iniciar()
 
