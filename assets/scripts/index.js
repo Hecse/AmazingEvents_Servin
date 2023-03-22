@@ -8,24 +8,24 @@ async function buscarDatos() {
         .then(response => response.json())
         .then(data => {
 
-            console.log(data);
-            console.log(data.events);
+            //console.log(data);
+            //console.log(data.events);
             return data;
         })
         .catch((error) => console.error(error));
-    console.log(data);
-    console.log(data.events);
+    //console.log(data);
+    //console.log(data.events);
     return data;
 }
 
 
 async function iniciar() {
     let datos = await buscarDatos();
-    console.log(datos);
-    console.log(datos.events);
+    //console.log(datos);
+    //console.log(datos.events);
 
-    pintarChecksFiltrados(datos);
-    pintarTarjetas(datos);
+    pintarChecksFiltrados(datos.events);
+    pintarTarjetas(datos.events);
 
     input.addEventListener('input', filtroDoble);
     contenidoCheck.addEventListener('change', filtroDoble);
@@ -61,10 +61,10 @@ iniciar()
 
 
 function pintarChecksFiltrados(unArray) {
-    let categorias = unArray.events.map(evento => evento.category)
+    let categorias = unArray.map(evento => evento.category)
     let setDeCategorias = new Set(categorias)
     let categoriasFiltradas = Array.from(setDeCategorias)
-    console.log(categoriasFiltradas);
+    //console.log(categoriasFiltradas);
     let chequeado = ``
     categoriasFiltradas.forEach(element => {
         chequeado += `<div class="form-check form-check-inline">
@@ -82,7 +82,7 @@ function pintarTarjetas(unArray) {
     }
 
     let tarjeta = ``
-    unArray.events.forEach(event => {
+    unArray.forEach(event => {
         tarjeta += `<div class="card text m-2 p-0" style="width: 18rem;"> 
     <img src= ${event.image} class="card-img-top" alt="Costume Party">
     <div class="card-body">
@@ -108,7 +108,7 @@ function pintarTarjetas(unArray) {
         </div>
 
         <div class="column col-4">
-            <a href="./details.html?id=${event.id}" class="btn btn-primary mb-1">Details</a>
+            <a href="./details.html?_id=${event._id}" class="btn btn-primary mb-1">Details</a>
         </div>
     </div>
     </div>`

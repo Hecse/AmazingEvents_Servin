@@ -1,10 +1,37 @@
 const querySearch = document.location.search;
 
-const id = new URLSearchParams(querySearch).get("id");
-
-const masDetalle = events.find(datos => datos.id === Number(id));
+const id = new URLSearchParams(querySearch).get("_id");
 
 const detalle = document.getElementById("details");
+
+
+
+async function buscarDatos() {
+    let data = await fetch("https://mindhub-xj03.onrender.com/api/amazing")
+        .then(response => response.json())
+        .then(data => {
+
+            console.log(data);
+            console.log(data.events);
+            return data;
+        })
+        .catch((error) => console.error(error));
+    console.log(data);
+    console.log(data.events);
+    return data;
+}
+
+async function iniciar() {
+    let datos = await buscarDatos();
+    console.log(datos);
+    console.log(datos.events);
+
+    let masDetalle = events.find(datos => datos.id === Number(id));
+}
+
+iniciar()
+
+
 
 detalle.innerHTML = `
 <div class="card text m-2 p-0" style="max-width: 75vw;">

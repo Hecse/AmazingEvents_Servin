@@ -4,23 +4,64 @@ const input = document.querySelector(`input`)
 
 
 
-input.addEventListener(`input`, filtroDoble)
+async function buscarDatos() {
+    let data = await fetch("https://mindhub-xj03.onrender.com/api/amazing")
+        .then(response => response.json())
+        .then(data => {
 
-contenidoCheck.addEventListener(`change`, filtroDoble)
-
-
-
-pintarChecksFiltrados(events)
-
-pintarTarjetas(events)
-
-
-
-function filtroDoble() {
-    let filtroUno = filtrarPorTitulos(events, input.value)
-    let filtroDos = filtrarPorCategorias(filtroUno)
-    pintarTarjetas(filtroDos)
+            //console.log(data);
+            //console.log(data.events);
+            return data;
+        })
+        .catch((error) => console.error(error));
+    //console.log(data);
+    //console.log(data.events);
+    return data;
 }
+
+
+async function iniciar() {
+    let datos = await buscarDatos();
+    //console.log(datos);
+    //console.log(datos.events);
+
+    pintarChecksFiltrados(datos.events);
+    pintarTarjetas(datos.events);
+
+    input.addEventListener('input', filtroDoble);
+    contenidoCheck.addEventListener('change', filtroDoble);
+
+    async function filtroDoble() {
+        let datosApi = await buscarDatos()
+        let filtroUno = filtrarPorTitulos(datosApi.events, input.value)
+        console.log(datosApi);
+        console.log(datosApi.events);
+        let filtroDos = filtrarPorCategorias(filtroUno)
+        pintarTarjetas(filtroDos)
+    }
+
+    function filtrarPorTitulos(array, texto) {
+        let tarjetasFiltradas = array.filter(event => event.name.toLowerCase().includes(texto.toLowerCase()))
+        return tarjetasFiltradas
+    }
+
+    function filtrarPorCategorias(array) {
+        let categorias = document.querySelectorAll("input[type='checkbox']")
+        let arrayDeCategorias = Array.from(categorias)
+        let categoriasFiltradas = arrayDeCategorias.filter(check => check.checked)
+        let categoriaCheck = categoriasFiltradas.map(categoriascheck => categoriascheck.value)
+        let arrayComparado = array.filter(element => categoriaCheck.includes(element.category))
+        if (categoriasFiltradas.length > 0) {
+            return arrayComparado
+        }
+        return array
+    }
+}
+
+iniciar()
+
+
+
 
 function pintarChecksFiltrados(unArray) {
     let categorias = unArray.map(evento => evento.category)
@@ -43,7 +84,7 @@ function pintarTarjetas(unArray) {
     }
     let tarjeta = ``
     for (let event of unArray) {
-        if (event.date <= "2022-01-01") {
+        if (event.date <= "2023-03-10") {
             tarjeta += `<div class="card text m-2 p-0" style="width: 18rem;"> 
             <img src= ${event.image} class="card-img-top" alt="Costume Party">
             <div class="card-body">
@@ -69,7 +110,7 @@ function pintarTarjetas(unArray) {
                 </div>
         
                 <div class="column col-4">
-                    <a href="./details.html?id=${event.id}" class="btn btn-primary mb-1">Details</a>
+                    <a href="./details.html?_id=${event._id}" class="btn btn-primary mb-1">Details</a>
                 </div>
             </div>
             </div>`
@@ -78,19 +119,3 @@ function pintarTarjetas(unArray) {
     contenidoCard.innerHTML = tarjeta
 }
 
-function filtrarPorTitulos(array, texto) {
-    let tarjetasFiltradas = array.filter(event => event.name.toLowerCase().includes(texto.toLowerCase()))
-    return tarjetasFiltradas
-}
-
-function filtrarPorCategorias(array) {
-    let categorias = document.querySelectorAll("input[type='checkbox']")
-    let arrayDeCategorias = Array.from(categorias)
-    let categoriasFiltradas = arrayDeCategorias.filter(check => check.checked)
-    let categoriaCheck = categoriasFiltradas.map(categoriascheck => categoriascheck.value)
-    let arrayComparado = array.filter(element => categoriaCheck.includes(element.category))
-    if (categoriasFiltradas.length > 0) {
-        return arrayComparado
-    }
-    return array
-}
