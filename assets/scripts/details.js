@@ -4,13 +4,22 @@ const detalle = document.getElementById("details");
 
 
 async function buscarDatos() {
-  let data = await fetch("https://mindhub-xj03.onrender.com/api/amazing")
-    .then(response => response.json())
-    .then(data => {
-      return data;
-    })
-    .catch((error) => console.error(error));
-  return data;
+  try {
+    let data = await fetch("https://mindhub-xj03.onrender.com/api/amazing")
+      .then(response => response.json())
+      .then(data => {
+        return data;
+      });
+    return data;
+  } catch (error) {
+    console.error(error);
+    let data = await fetch("./assets/scripts/amazing.json")
+      .then(response => response.json())
+      .then(data => {
+        return data;
+      });
+    return data;
+  }
 }
 
 
@@ -35,7 +44,6 @@ async function iniciar() {
           <p class="card-text"><small>CATEGORY: <br> ${masDetalle.category}</small></p>
           <p class="card-text"><small>PLACE: <br> ${masDetalle.place}</small></p>
           <p class="card-text"><small>CAPACITY: <br> ${masDetalle.capacity}</small></p>
-          <p class="card-text"><small>ASSISTANCE: <br> ${masDetalle.assistance}</small></p>
           <p class="card-text"><small>PRICE: <br> $ ${masDetalle.price}</small></p>
         </div>
       </div>

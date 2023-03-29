@@ -1,40 +1,53 @@
-const prueba = document.getElementById("prueba");
 const staticsEvents = document.getElementById("events");
-const url = "https://mindhub-xj03.onrender.com/api/amazing"
+const pastEvents = document.getElementById("past");
+const upcommingEvents = document.getElementById("upcomming");
+const url = "https://mindhub-xj03.onrender.com/api/amazing";
 
-buscarDatos()
 
 async function buscarDatos() {
-    let data = await fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            //console.log(data);
-            //console.log(data.events);
-            //console.log(data.currentDate);
-            return data;
-        })
-        .catch((error) => console.error(error));
-    //console.log(data);
-    //console.log(data.events);
-    return data;
+    try {
+        let data = await fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                return data;
+            });
+        return data;
+    } catch (error) {
+        console.error(error);
+        let data = await fetch("./assets/scripts/amazing.json")
+            .then(response => response.json())
+            .then(data => {
+                return data;
+            });
+        return data;
+    }
 }
 
 async function iniciar() {
     let datos = await buscarDatos();
-    arrayPast = past(datos.events, datos.currentDate);
-    arrayUpcoming = upcoming(datos.events, datos.currentDate);
-    //console.log(datos);
+    let arrayPast = past(datos.events, datos.currentDate);
+    let arrayUpcoming = upcoming(datos.events, datos.currentDate);
+    console.log(datos);
     //console.log(datos.events);
     //console.log(arrayPast);
+    //console.log(arrayPast[0]);
     //console.log(arrayUpcoming);
-    
+    //console.log(arrayUpcoming);
+
 
     const eventoConMayorCapacidad = ewLargeCapacity(datos);
     const eventoConMayorAsistencia = highestAttendance(datos);
     const eventoConMenorAsistencia = lowesttAttendance(datos);
-    const eventosPasados = filtrarPorCategoria(datos);
-    //console.log(eventosPasados);
-    //filtrarPorCategoria(datos)
+    const eventosPasados = filtrarPasadoPorCategoria(arrayPast);
+    const eventosFuturos = filtrarfuturoPorCategoria(arrayUpcoming);
+    //const eventosPasados = filtrarPasadoPorCategoria(arrayUpcoming);
+
+    console.log(eventosPasados.events[0].price);
+    console.log(eventosPasados.events);
+    console.log(eventosPasados);
+    tablaPast(eventosPasados.events)
+    tablaUpcomming(eventosFuturos.events)
+
 
     staticsEvents.innerHTML = `
 <thead>
@@ -57,78 +70,6 @@ async function iniciar() {
 </tbody>
 `
 
-//eventos pasados
-function filtrarPorCategoria(unArray) {
-    let pastEstaticsByCategory = {
-        //currentDate: unArray.currentDate,
-        events: []
-    };
-
-    for (let i = 0; i < unArray.events.length; i++) {
-        let eventAct = unArray.events[i];
-        let catAct = eventAct.category;
-        let objetoExistente = pastEstaticsByCategory.events.find(objeto => objeto.category === catAct);
-
-        if (objetoExistente) {
-            objetoExistente.capacity += eventAct.capacity;
-            objetoExistente.price += eventAct.price;
-            objetoExistente.assistance += eventAct.assistance;
-
-        } else {
-            let nuevoObjeto = {
-                category: catAct,
-                capacity: eventAct.capacity,
-                price: eventAct.price,
-                assistance: eventAct.assistance,
-            };
-            pastEstaticsByCategory.events.push(nuevoObjeto);
-        }
-    }
-    console.log(pastEstaticsByCategory);
-    return pastEstaticsByCategory;
-}
-
-const pastEvents = document.getElementById("past");
-pastEvents.innerHTML = `
-<thead>
-    <tr>
-        <th colspan="3">Past events statics by category</th>
-    </tr>
-</thead>
-<tbody>
-    <tr>
-        <td>Categories</td>
-        <td>Revenues</td>
-        <td>Percentage of attendance</td>
-    </tr>
-    <tr>
-        <td>----------</td>
-        <td>----------</td>
-        <td>----------</td>
-    </tr>
-    <tr>
-        <td>----------</td>
-        <td>----------</td>
-        <td>----------</td>
-    </tr>
-    <tr>
-        <td>----------</td>
-        <td>----------</td>
-        <td>----------</td>
-    </tr>
-    <tr>
-        <td>----------</td>
-        <td>----------</td>
-        <td>----------</td>
-    </tr>
-    <tr>
-        <td>----------</td>
-        <td>----------</td>
-        <td>----------</td>
-    </tr>
-</tbody>
-
-`
 }
 
 iniciar()
@@ -142,43 +83,99 @@ function upcoming(data, currentDate) {
     return data.filter(event => event.date > currentDate)
 }
 
-//funcion para pintar las tablas
-/* function tablaPast(unArray) {
+//eventos pasados
+function filtrarPasadoPorCategoria(unArray) {
+    let pastEstaticsByCategory = {
+        events: []
+    };
+
+    for (let i = 0; i < unArray.length; i++) {
+        let eventAct = unArray[i];
+        let catAct = eventAct.category;
+        let objetoExistente = pastEstaticsByCategory.events.find(objeto => objeto.category === catAct);
+
+        if (objetoExistente) {
+            objetoExistente.capacity += eventAct.capacity;
+            objetoExistente.price += eventAct.price;
+            objetoExistente.assistance += eventAct.assistance;
+            objetoExistente.reveneus += eventAct.assistance * eventAct.price;
+
+        } else {
+            let nuevoObjeto = {
+                category: catAct,
+                capacity: eventAct.capacity,
+                price: eventAct.price,
+                assistance: eventAct.assistance,
+                reveneus: eventAct.assistance * eventAct.price,
+            };
+            pastEstaticsByCategory.events.push(nuevoObjeto);
+        }
+    }
+    console.log(pastEstaticsByCategory);
+    return pastEstaticsByCategory;
+}
+
+//eventos futuros
+function filtrarfuturoPorCategoria(unArray) {
+    let upcommingEstaticsByCategory = {
+        events: []
+    };
+
+    for (let i = 0; i < unArray.length; i++) {
+        let eventAct = unArray[i];
+        let catAct = eventAct.category;
+        let objetoExistente = upcommingEstaticsByCategory.events.find(objeto => objeto.category === catAct);
+
+        if (objetoExistente) {
+            objetoExistente.capacity += eventAct.capacity;
+            objetoExistente.price += eventAct.price;
+            objetoExistente.estimate += eventAct.estimate;
+            objetoExistente.reveneus += eventAct.estimate * eventAct.price;
+
+        } else {
+            let nuevoObjeto = {
+                category: catAct,
+                capacity: eventAct.capacity,
+                price: eventAct.price,
+                estimate: eventAct.estimate,
+                reveneus: eventAct.estimate * eventAct.price,
+            };
+            upcommingEstaticsByCategory.events.push(nuevoObjeto);
+        }
+    }
+    console.log(upcommingEstaticsByCategory);
+    return upcommingEstaticsByCategory;
+}
+
+//funcion pintar tabla upcomming
+function tablaUpcomming(unArray) {
+    let upcomming = ``
+    unArray.forEach(event => {
+        upcomming += `
+    <tr>
+        <td>${event.category}</td>
+        <td>$ ${event.reveneus}</td>
+        <td>${(event.estimate * 100 / event.capacity).toFixed(2)} %</td>
+    </tr> 
+`
+    });
+    upcommingEvents.innerHTML = upcomming
+}
+
+//funcion pintar tabla past
+function tablaPast(unArray) {
     let past = ``
     unArray.forEach(event => {
-        past += `<div class="card text m-2 p-0" style="width: 18rem;"> 
-    <img src= ${event.image} class="card-img-top" alt= ${event.name}>
-    <div class="card-body">
-        <h5 class="card-title"> ${event.name} </h5>
-        <p class="card-text"> ${event.description} </p>        
-    </div>
-    
-    <div class="row">
-        <div class="column col-12">        
-            <div class="card-footer bg-transparent">
-            Date: ${event.date} 
-            </div>
-        </div>        
-    </div>
-
-    <div class="row">
-        <div class="column col-8">
-            <div class="row">
-                <div class="column col-12">
-                <p class="card-text">Price: $ ${event.price} </p>
-                </div>
-            </div>                        
-        </div>
-
-        <div class="column col-4">
-            <a href="./details.html?_id=${event._id}" class="btn btn-primary mb-1">Details</a>
-        </div>
-    </div>
-    </div>`
+        past += `
+    <tr>
+        <td>${event.category}</td>
+        <td>${event.reveneus} $</td>
+        <td>${(event.assistance * 100 / event.capacity).toFixed(2)} %</td>
+    </tr> 
+`
     });
-    contenidoCard.innerHTML = tarjeta
-} */
-
+    pastEvents.innerHTML = past
+}
 
 //evento con mayor capacidad
 function ewLargeCapacity(array) {
@@ -213,40 +210,6 @@ function lowesttAttendance(array) {
         }
     });
 }
-
-
-const upcommingEvents = document.getElementById("upcomming");
-
-upcommingEvents.innerHTML = `
-<thead>
-    <tr>
-        <th colspan="3">Upcomming events statics by category</th>
-    </tr>
-</thead>
-<tbody>
-    <tr>
-        <td>Categories</td>
-        <td>Revenues</td>
-        <td>Percentage of attendance</td>
-    </tr>
-    <tr>
-        <td>----------</td>
-        <td>----------</td>
-        <td>----------</td>
-    </tr>
-    <tr>
-        <td>----------</td>
-        <td>----------</td>
-        <td>----------</td>
-    </tr>
-    <tr>
-        <td>----------</td>
-        <td>----------</td>
-        <td>----------</td>
-    </tr>
-</tbody>
-`
-
 
 
 

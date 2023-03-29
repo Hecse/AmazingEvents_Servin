@@ -3,20 +3,23 @@ const contenidoCard = document.getElementById(`tarjetas`)
 const input = document.querySelector(`input`)
 
 
-
 async function buscarDatos() {
-    let data = await fetch("https://mindhub-xj03.onrender.com/api/amazing")
-        .then(response => response.json())
-        .then(data => {
-
-            //console.log(data);
-            //console.log(data.events);
-            return data;
-        })
-        .catch((error) => console.error(error));
-    //console.log(data);
-    //console.log(data.events);
-    return data;
+    try {
+        let data = await fetch("https://mindhub-xj03.onrender.com/api/amazing")
+            .then(response => response.json())
+            .then(data => {
+                return data;
+            });
+        return data;
+    } catch (error) {
+        console.error(error);
+        let data = await fetch("./assets/scripts/amazing.json")
+            .then(response => response.json())
+            .then(data => {
+                return data;
+            });
+        return data;
+    }
 }
 
 
@@ -59,8 +62,6 @@ async function iniciar() {
 }
 
 iniciar()
-
-
 
 
 function pintarChecksFiltrados(unArray) {
