@@ -30,21 +30,28 @@ async function iniciar() {
   let masDetalle = datos.events.find(datos => datos._id === Number(id));
 
   detalle.innerHTML = `
-  <div class="card text m-2 p-0" style="max-width: 100vw;">
+  <div class="card text m-5" style="max-width: 50vw;">
     <div class="row g-0">
-      <div class="col-md-4">
+      <div class="col-md-5">
         <img src= ${masDetalle.image} class="img-fluid rounded-start" alt= ${masDetalle.name}>
       </div>
 
-      <div class="col-md-8">
+      <div class="col-md-7">
         <div class="card-body">
-          <p class="card-text"><small>NAME: <br> ${masDetalle.name}</small></p>
-          <p class="card-text"><small>DATE: <br> ${masDetalle.date}</small></p>
-          <p class="card-text"><small>DESCRIPTION: <br> ${masDetalle.description}</small></p>
-          <p class="card-text"><small>CATEGORY: <br> ${masDetalle.category}</small></p>
-          <p class="card-text"><small>PLACE: <br> ${masDetalle.place}</small></p>
-          <p class="card-text"><small>CAPACITY: <br> ${masDetalle.capacity}</small></p>
-          <p class="card-text"><small>PRICE: <br> $ ${masDetalle.price}</small></p>
+        <div class="text-danger fs-5">NAME</div>
+          <p class="card-text"><small>${masDetalle.name}</small></p>
+          <div class="text-danger fs-5">DATE</div>
+          <p class="card-text"><small>${masDetalle.date}</small></p>
+          <div class="text-danger fs-5">DESCRIPTION</div>
+          <p class="card-text"><small>${masDetalle.description}</small></p>
+          <div class="text-danger fs-5">CATEGORY</div>
+          <p class="card-text"><small>${masDetalle.category}</small></p>
+          <div class="text-danger fs-5">PLACE</div>
+          <p class="card-text"><small>${masDetalle.place}</small></p>
+          <div class="text-danger fs-5">CAPACITY</div>
+          <p class="card-text"><small>${masDetalle.capacity}</small></p>
+          <div class="text-danger fs-5">PRICE</div>
+          <p class="card-text"><small>$ ${masDetalle.price}</small></p>
         </div>
       </div>
     </div>

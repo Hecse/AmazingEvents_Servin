@@ -18,11 +18,17 @@ body {
     position: fixed; 
     top: 0;
     width: 100%;
-
 }
 
 main {
-    min-height: 60vh;
+    min-height: 57vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact {
+    min-height: 73vh;
 }
 
 /* .row {

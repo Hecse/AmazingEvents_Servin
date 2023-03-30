@@ -27,32 +27,20 @@ async function iniciar() {
     let datos = await buscarDatos();
     let arrayPast = past(datos.events, datos.currentDate);
     let arrayUpcoming = upcoming(datos.events, datos.currentDate);
-    console.log(datos);
-    //console.log(datos.events);
-    //console.log(arrayPast);
-    //console.log(arrayPast[0]);
-    //console.log(arrayUpcoming);
-    //console.log(arrayUpcoming);
-
-
+    
     const eventoConMayorCapacidad = ewLargeCapacity(datos);
     const eventoConMayorAsistencia = highestAttendance(datos);
     const eventoConMenorAsistencia = lowesttAttendance(datos);
     const eventosPasados = filtrarPasadoPorCategoria(arrayPast);
     const eventosFuturos = filtrarfuturoPorCategoria(arrayUpcoming);
-    //const eventosPasados = filtrarPasadoPorCategoria(arrayUpcoming);
-
-    console.log(eventosPasados.events[0].price);
-    console.log(eventosPasados.events);
-    console.log(eventosPasados);
+        
     tablaPast(eventosPasados.events)
     tablaUpcomming(eventosFuturos.events)
-
 
     staticsEvents.innerHTML = `
 <thead>
     <tr>
-        <th colspan="3">Events Statics</th>
+        <th colspan="3" class="text-danger">Events Statics</th>
     </tr>
 </thead>
 <tbody>
@@ -69,7 +57,6 @@ async function iniciar() {
     </tr>
 </tbody>
 `
-
 }
 
 iniciar()
@@ -111,7 +98,7 @@ function filtrarPasadoPorCategoria(unArray) {
             pastEstaticsByCategory.events.push(nuevoObjeto);
         }
     }
-    console.log(pastEstaticsByCategory);
+    //console.log(pastEstaticsByCategory);
     return pastEstaticsByCategory;
 }
 
@@ -143,7 +130,7 @@ function filtrarfuturoPorCategoria(unArray) {
             upcommingEstaticsByCategory.events.push(nuevoObjeto);
         }
     }
-    console.log(upcommingEstaticsByCategory);
+    //console.log(upcommingEstaticsByCategory);
     return upcommingEstaticsByCategory;
 }
 
@@ -169,7 +156,7 @@ function tablaPast(unArray) {
         past += `
     <tr>
         <td>${event.category}</td>
-        <td>${event.reveneus} $</td>
+        <td>$ ${event.reveneus}</td>
         <td>${(event.assistance * 100 / event.capacity).toFixed(2)} %</td>
     </tr> 
 `
