@@ -22,7 +22,6 @@ async function buscarDatos() {
     }
 }
 
-
 async function iniciar() {
     let datos = await buscarDatos();
     //console.log(datos);
@@ -81,41 +80,23 @@ function pintarChecksFiltrados(unArray) {
 function pintarTarjetas(unArray) {
     if (unArray.length == 0) {
         contenidoCard.innerHTML = `<h3>No match found</h3>`
-        console.log(unArray.events);
         return
     }
+
     let tarjeta = ``
     for (let event of unArray) {
         if (event.date > "2023-03-10") {
-            tarjeta += `<div class="card text m-2 p-0" style="width: 18rem;"> 
-            <img src= ${event.image} class="card-img-top" alt="Costume Party">
-            <div class="card-body">
-                <h5 class="card-title text-danger"> ${event.name} </h5>
-                <p class="card-text"> ${event.description} </p>        
-            </div>
-            
-            <div class="row">
-                <div class="column col-12">        
-                    <div class="card-footer bg-transparent">
-                    Date: ${event.date} 
-                    </div>
-                </div>        
-            </div>
-        
-            <div class="row">
-                <div class="column col-8">
-                    <div class="row">
-                        <div class="column col-12">
-                        <p class="card-text">Price: $ ${event.price} </p>
-                        </div>
-                    </div>                        
+            tarjeta += 
+            `<div class="card text m-1" style="width: 18rem;"> 
+            <a href="./details.html?_id=${event._id}" class="text-decoration-none text-white"><img src= ${event.image} class="card-img-top" alt= ${event.name}>
+                <div class="card-body">
+                    <h5 class="card-title text-danger"> ${event.name} </h5>
+                    <p class="card-text"> ${event.description} </p>
+                    <p class="card-text"> Date: ${event.date} </p>
+                    <p class="card-text"> Price: u$s ${event.price} </p>              
                 </div>
-        
-                <div class="column col-4">
-                    <a href="./details.html?_id=${event._id}" class="btn btn-primary mb-1">Details</a>
-                </div>
-            </div>
-            </div>`
+            </a>
+        </div>`
         }
     }
     contenidoCard.innerHTML = tarjeta

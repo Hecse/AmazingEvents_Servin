@@ -79,14 +79,31 @@ function pintarChecksFiltrados(unArray) {
 }
 
 function pintarTarjetas(unArray) {
-    if (unArray.length === 0) {
+    if (unArray.length == 0) {
         contenidoCard.innerHTML = `<h3>No match found</h3>`
         return
     }
 
     let tarjeta = ``
     unArray.forEach(event => {
-        tarjeta += `<div class="card text m-2 p-0" style="width: 18rem;"> 
+        tarjeta += 
+        `<div class="card text m-1" style="width: 18rem;"> 
+            <a href="./details.html?_id=${event._id}" class="text-decoration-none text-white"><img src= ${event.image} class="card-img-top" alt= ${event.name}>
+                <div class="card-body">
+                    <h5 class="card-title text-danger"> ${event.name} </h5>
+                    <p class="card-text"> ${event.description} </p>
+                    <p class="card-text"> Date: ${event.date} </p>
+                    <p class="card-text"> Price: u$ ${event.price} </p>              
+                </div>
+            </a>
+        </div>`
+    });
+    contenidoCard.innerHTML = tarjeta
+}
+
+
+//targeta anterior
+/* `<div class="card text m-2 p-0" style="width: 18rem;"> 
     <img src= ${event.image} class="card-img-top" alt= ${event.name}>
     <div class="card-body">
         <h5 class="card-title text-danger"> ${event.name} </h5>
@@ -114,8 +131,4 @@ function pintarTarjetas(unArray) {
             <a href="./details.html?_id=${event._id}" class="btn btn-primary mb-1">Details</a>
         </div>
     </div>
-    </div>`
-    });
-    contenidoCard.innerHTML = tarjeta
-}
-
+    </div>` */

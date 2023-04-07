@@ -50,10 +50,9 @@ async function iniciar() {
         <td>Event with larger capacity</td>
     </tr>
     <tr>
-        <td>${eventoConMayorAsistencia.name}, (${(eventoConMayorAsistencia.assistance * 100 / eventoConMayorAsistencia.capacity).toFixed(2)}%)</td>
-        <td> ${eventoConMenorAsistencia.name}, (${eventoConMenorAsistencia.assistance * 100 / eventoConMenorAsistencia.capacity}%) </td>
-        <td> ${eventoConMayorCapacidad.name}, capacity (${eventoConMayorCapacidad.capacity
-        })</td>
+        <td>${eventoConMayorAsistencia.name}, (${(eventoConMayorAsistencia.assistance * 100 / eventoConMayorAsistencia.capacity).toFixed(2)} %)</td>
+        <td> ${eventoConMenorAsistencia.name}, (${eventoConMenorAsistencia.assistance * 100 / eventoConMenorAsistencia.capacity} %)</td>
+        <td> ${eventoConMayorCapacidad.name}, (${new Intl.NumberFormat().format(eventoConMayorCapacidad.capacity)})</td>
     </tr>
 </tbody>
 `
@@ -141,7 +140,7 @@ function tablaUpcomming(unArray) {
         upcomming += `
     <tr>
         <td>${event.category}</td>
-        <td>$ ${event.reveneus}</td>
+        <td>u$s ${new Intl.NumberFormat().format(event.reveneus)}</td>
         <td>${(event.estimate * 100 / event.capacity).toFixed(2)} %</td>
     </tr> 
 `
@@ -156,7 +155,7 @@ function tablaPast(unArray) {
         past += `
     <tr>
         <td>${event.category}</td>
-        <td>$ ${event.reveneus}</td>
+        <td>u$s ${new Intl.NumberFormat().format(event.reveneus)}</td>
         <td>${(event.assistance * 100 / event.capacity).toFixed(2)} %</td>
     </tr> 
 `
@@ -197,8 +196,4 @@ function lowesttAttendance(array) {
         }
     });
 }
-
-
-
-
 

@@ -30,7 +30,7 @@ async function iniciar() {
   let masDetalle = datos.events.find(datos => datos._id === Number(id));
 
   detalle.innerHTML = `
-  <div class="card text m-5" style="max-width: 50vw;">
+  <div class="card text m-0" style="max-width: 60vw;">
     <div class="row g-0">
       <div class="col-md-5">
         <img src= ${masDetalle.image} class="img-fluid rounded-start" alt= ${masDetalle.name}>
@@ -38,7 +38,7 @@ async function iniciar() {
 
       <div class="col-md-7">
         <div class="card-body">
-        <div class="text-danger fs-5">NAME</div>
+          <div class="text-danger fs-5">NAME</div>
           <p class="card-text"><small>${masDetalle.name}</small></p>
           <div class="text-danger fs-5">DATE</div>
           <p class="card-text"><small>${masDetalle.date}</small></p>
@@ -51,7 +51,7 @@ async function iniciar() {
           <div class="text-danger fs-5">CAPACITY</div>
           <p class="card-text"><small>${masDetalle.capacity}</small></p>
           <div class="text-danger fs-5">PRICE</div>
-          <p class="card-text"><small>$ ${masDetalle.price}</small></p>
+          <p class="card-text"><small>u$s ${masDetalle.price}</small></p>
         </div>
       </div>
     </div>
